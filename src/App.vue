@@ -1,5 +1,36 @@
 <template>
   <div id="app">
+    <nut-navbar
+      @on-click-back="back"
+      @on-click-title="title"
+      @on-click-more="more"
+      :leftShow="true"
+      :rightShow="false"
+    >测试练习</nut-navbar>
+    <h5 class="quiz-question">这是题目的主题内容。。。详情如下。。。有很长的描述内容，请选择正确的答案。</h5>
+    <nut-cell :show-icon="true">
+      <span slot="title">A. 答案 A</span>
+      <nut-icon type="tick" slot="icon" size="15px" color="#848484"></nut-icon>
+    </nut-cell>
+    <nut-cell :show-icon="true">
+      <span slot="title">B. 答案 B</span>
+    </nut-cell>
+    <nut-cell :show-icon="true">
+      <span slot="title">C. 答案 C</span>
+    </nut-cell>
+    <nut-cell :show-icon="true">
+      <span slot="title">D. 答案 D</span>
+    </nut-cell>
+    <nut-buttongroup>
+      <nut-button
+        type="light"
+      >
+        上一题
+      </nut-button>
+      <nut-button>
+        下一题
+      </nut-button>
+    </nut-buttongroup>
     <nut-tabbar
       @tab-switch="tabSwitch"
       :tabbar-list="tabList"
@@ -56,7 +87,10 @@ export default {
   methods: {
     tabSwitch: function(value,index){
       console.log(index);
-    }
+    },
+    back() {},
+    title() {},
+    more() {}
   }
 };
 </script>
@@ -67,6 +101,27 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  background-color: #efefef !important;
+
+  .nav-title {
+    font-size: 0.5rem;
+    color: white;
+  }
+
+  .nut-navbar {
+    background-color: sienna;
+  }
+
+  .nut-buttongroup {
+    padding: 0.4rem 0.2rem;
+    .nut-button {
+      margin: auto 0.2rem;
+    }
+  }
+
+  .quiz-question {
+    font-size: 0.4rem;
+    margin: 0.8rem 0.4rem;
+  }
 }
 </style>
