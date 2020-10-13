@@ -4,12 +4,6 @@ const pxtorem = require('postcss-pxtorem')
 module.exports = {
   css: {
     loaderOptions: {
-      scss: {
-        additionalData: `
-          @import '@/assets/custom_theme.scss';
-          @import '@nutui/nutui/dist/styles/index.scss';
-          `,
-      },
       postcss: {
         plugins: [
           require('autoprefixer')({
