@@ -137,7 +137,9 @@ export default {
   mounted() {
     this.$nextTick(async () => {
       const suite = parseInt(this.$route.query.suite) || 0
+      const t = this.$toast.loading('题库加载中...')
       this.quizBank = await this.fetchData(suite)
+      t.hide()
       console.log('quiz bank:', this.quizBank)
     })
   }

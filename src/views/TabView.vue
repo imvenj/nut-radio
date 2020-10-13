@@ -46,6 +46,7 @@ export default {
 
 <style lang="scss">
 #tab-view {
+  margin-bottom: 1.4rem;
   .nut-tabbar {
     height: 1.4rem;
     .icon-box {
