@@ -30,11 +30,19 @@
       <h5 class="quiz-question">
         [{{ quiz.id }}] {{ quiz.question }}
       </h5>
+
+      <div class="quiz-options" v-if="mode === 0">
+        <nut-checkbox
+          v-model="answerOnly">
+          只显示正确答案
+        </nut-checkbox>
+      </div>
+
       <div class="quiz-image" v-if="quiz.picture">
         <img :src="quiz.picture">
       </div>
       <nut-cell :show-icon="true"
-        v-for="(choice, index) in quiz.choices"
+        v-for="(choice, index) in ((mode === 0 && answerOnly) ? [quiz.choices[0]] : quiz.choices)"
         :key="`choice-${index}`">
         <span slot="title">{{ cid[index] }}. {{ choice }}</span>
       </nut-cell>
@@ -56,7 +64,7 @@
     </div>
 
     <!-- Search dialog -->
-    <nut-dialog :title="`请输入转跳题目的序号（1-${quizBank.length}）`" :visible="dialogShow" @ok-btn-click="goToQuiz" @cancel-btn-click="dialogShow=false" @close="dialogShow=false">
+    <nut-dialog :title="`请输入题目序号（1-${quizBank.length}）或题号`" :visible="dialogShow" @ok-btn-click="goToQuiz" @cancel-btn-click="dialogShow=false" @close="dialogShow=false">
       <nut-textinput
         v-model="target"
         :clearBtn="true"
@@ -80,6 +88,7 @@ export default {
     suite: 0,
     current: 0,
     dialogShow: false,
+    answerOnly: false,
     target: ''
   }),
   computed: {
@@ -99,13 +108,25 @@ export default {
     },
     goToQuiz() {
       this.dialogShow = false
-      const target = parseInt(this.target) - 1 || -1
-      if (target < 0 || target >= this.quizBank.length) {
-        this.target = ''
-        this.$toast.text('题号超出允许的范围。')
-        return
+      if (this.target.match(/^LK\d+$/i)) {
+        const tid = this.target.toUpperCase()
+        const index = this.quizBank.findIndex(q => q.id === tid)
+        if (index !== -1) {
+          this.current = index
+        } else {
+          this.$toast.text('题库中未找到该题号。')
+        }
+      } else if (this.target.match(/^\d+$/i))  {
+        const target = parseInt(this.target) - 1 || -1
+        if (target < 0 || target >= this.quizBank.length) {
+          this.target = ''
+          this.$toast.text('题目序号超出允许的范围。')
+        } else {
+          this.current = target
+        }
+      } else {
+        this.$toast.text('无效的查询条件。')
       }
-      this.current = target
       this.target = ''
     },
     async fetchData(suite) {
@@ -134,7 +155,7 @@ export default {
 
   .quiz-question {
     font-size: 0.4rem;
-    margin: 0.8rem 0.4rem;
+    margin: 0.4rem;
   }
 
   a.navbar-button {
@@ -151,6 +172,10 @@ export default {
       display: block;
       height: 200px;
     }
+  }
+
+  .quiz-options {
+    margin: 0.4rem;
   }
 }
 </style>

@@ -45,4 +45,18 @@ export default {
 </script>
 
 <style lang="scss">
+#tab-view {
+  .nut-tabbar {
+    height: 1.4rem;
+    .icon-box {
+      .icon {
+        width: 0.6rem;
+        height: 0.6rem;
+      }
+    }
+    .tabbar-nav-word {
+      font-size: 0.28rem;
+    }
+  }
+}
 </style>

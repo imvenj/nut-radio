@@ -17,10 +17,15 @@ export default {
   color: #2c3e50;
   background-color: #efefef !important;
   font-size: 0.5rem;
+  padding-top: 1.2rem;
 
   .nut-navbar {
     background-color: #ff4f18 ;
     color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 }
 </style>
